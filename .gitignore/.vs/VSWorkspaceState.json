@@ -1,9 +1,0 @@
-{
-  "ExpandedNodes": [
-    "",
-    "\\BankingCreditSystem.Core",
-    "\\BankingCreditSystem.Core\\Repositories"
-  ],
-  "SelectedNode": "\\BankingCreditSystem.Core\\Repositories\\IAsyncRepository.cs",
-  "PreviewInSolutionExplorer": false
-}
