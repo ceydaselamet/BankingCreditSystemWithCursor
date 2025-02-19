@@ -1,0 +1,4 @@
+C:\Users\win10\source\repos\BankApp\BankingCreditSystem.Core\obj\Debug\net8.0\BankingCreditSystem.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\win10\source\repos\BankApp\BankingCreditSystem.Core\obj\Debug\net8.0\BankingCreditSystem.Core.AssemblyInfoInputs.cache
+C:\Users\win10\source\repos\BankApp\BankingCreditSystem.Core\obj\Debug\net8.0\BankingCreditSystem.Core.AssemblyInfo.cs
+C:\Users\win10\source\repos\BankApp\BankingCreditSystem.Core\obj\Debug\net8.0\BankingCreditSystem.Core.csproj.CoreCompileInputs.cache
