@@ -1,21 +1,21 @@
-using BankingCreditSystem.Application.Features.IndividualCustomers.Commands.Create;
-using BankingCreditSystem.Application.Features.IndividualCustomers.Commands.Update;
-using BankingCreditSystem.Application.Features.IndividualCustomers.Commands.Delete;
-using BankingCreditSystem.Application.Features.IndividualCustomers.Queries.GetById;
-using BankingCreditSystem.Application.Features.IndividualCustomers.Queries.GetList;
-using BankingCreditSystem.Application.Features.IndividualCustomers.Dtos.Requests;
+using BankingCreditSystem.Application.Features.CorporateCustomers.Commands.Create;
+using BankingCreditSystem.Application.Features.CorporateCustomers.Commands.Update;
+using BankingCreditSystem.Application.Features.CorporateCustomers.Commands.Delete;
+using BankingCreditSystem.Application.Features.CorporateCustomers.Queries.GetById;
+using BankingCreditSystem.Application.Features.CorporateCustomers.Queries.GetList;
+using BankingCreditSystem.Application.Features.CorporateCustomers.Dtos.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankingCreditSystem.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class IndividualCustomersController : BaseController
+public class CorporateCustomersController : BaseController
 {
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateIndividualCustomerRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateCorporateCustomerRequest request)
     {
-        var command = new CreateIndividualCustomerCommand { Request = request };
+        var command = new CreateCorporateCustomerCommand { Request = request };
         var response = await Mediator.Send(command);
         return Created("", response);
     }
@@ -23,7 +23,7 @@ public class IndividualCustomersController : BaseController
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById([FromRoute] Guid id)
     {
-        var query = new GetByIdIndividualCustomerQuery { Id = id };
+        var query = new GetByIdCorporateCustomerQuery { Id = id };
         var response = await Mediator.Send(query);
         return Ok(response);
     }
@@ -31,7 +31,7 @@ public class IndividualCustomersController : BaseController
     [HttpGet]
     public async Task<IActionResult> GetList([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
-        var query = new GetListIndividualCustomerQuery 
+        var query = new GetListCorporateCustomerQuery 
         { 
             Pagination = new Core.Repositories.PaginationParams 
             { 
@@ -44,9 +44,9 @@ public class IndividualCustomersController : BaseController
     }
 
     [HttpPut]
-    public async Task<IActionResult> Update([FromBody] UpdateIndividualCustomerRequest request)
+    public async Task<IActionResult> Update([FromBody] UpdateCorporateCustomerRequest request)
     {
-        var command = new UpdateIndividualCustomerCommand { Request = request };
+        var command = new UpdateCorporateCustomerCommand { Request = request };
         var response = await Mediator.Send(command);
         return Ok(response);
     }
@@ -54,7 +54,7 @@ public class IndividualCustomersController : BaseController
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
-        var command = new DeleteIndividualCustomerCommand { Id = id };
+        var command = new DeleteCorporateCustomerCommand { Id = id };
         var response = await Mediator.Send(command);
         return Ok(response);
     }

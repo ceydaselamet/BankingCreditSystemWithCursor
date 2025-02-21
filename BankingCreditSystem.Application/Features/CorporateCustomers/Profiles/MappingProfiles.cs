@@ -4,6 +4,7 @@ using BankingCreditSystem.Application.Features.CorporateCustomers.Dtos;
 using BankingCreditSystem.Application.Features.CorporateCustomers.Dtos.Requests;
 using BankingCreditSystem.Application.Features.CorporateCustomers.Dtos.Responses;
 using BankingCreditSystem.Domain.Entities;
+using BankingCreditSystem.Core.Repositories;
 
 namespace BankingCreditSystem.Application.Features.CorporateCustomers.Profiles;
 
@@ -19,5 +20,16 @@ public class MappingProfiles : Profile
         
         CreateMap<CorporateCustomer, GetCorporateCustomerResponse>();
         CreateMap<CorporateCustomer, GetCorporateCustomerListResponse>();
+        
+        CreateMap<IPaginate<CorporateCustomer>, IPaginate<GetCorporateCustomerListResponse>>()
+            .ConvertUsing((src, dest, context) => new Paginate<GetCorporateCustomerListResponse>
+            {
+                Items = context.Mapper.Map<IList<GetCorporateCustomerListResponse>>(src.Items),
+                Index = src.Index,
+                Size = src.Size,
+                Count = src.Count,
+                Pages = src.Pages,
+                From = src.From
+            });
     }
 } 

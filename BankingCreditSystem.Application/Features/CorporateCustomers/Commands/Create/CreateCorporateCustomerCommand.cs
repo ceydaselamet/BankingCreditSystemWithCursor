@@ -1,7 +1,7 @@
 using AutoMapper;
+using BankingCreditSystem.Application.Features.CorporateCustomers.Rules;
 using BankingCreditSystem.Application.Features.CorporateCustomers.Dtos.Requests;
 using BankingCreditSystem.Application.Features.CorporateCustomers.Dtos.Responses;
-using BankingCreditSystem.Application.Features.CorporateCustomers.Rules;
 using BankingCreditSystem.Application.Services.Repositories;
 using BankingCreditSystem.Domain.Entities;
 using MediatR;

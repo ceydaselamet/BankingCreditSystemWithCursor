@@ -4,19 +4,19 @@ using BankingCreditSystem.Application.Features.CorporateCustomers.Dtos.Responses
 using BankingCreditSystem.Application.Services.Repositories;
 using MediatR;
 
-namespace BankingCreditSystem.Application.Features.CorporateCustomers.Queries.GetById;
+namespace BankingCreditSystem.Application.Features.CorporateCustomers.Commands.Delete;
 
-public class GetByIdCorporateCustomerQuery : IRequest<GetCorporateCustomerResponse>
+public class DeleteCorporateCustomerCommand : IRequest<DeleteCorporateCustomerResponse>
 {
     public Guid Id { get; set; }
 
-    public class GetByIdCorporateCustomerQueryHandler : IRequestHandler<GetByIdCorporateCustomerQuery, GetCorporateCustomerResponse>
+    public class DeleteCorporateCustomerCommandHandler : IRequestHandler<DeleteCorporateCustomerCommand, DeleteCorporateCustomerResponse>
     {
         private readonly ICorporateCustomerRepository _corporateCustomerRepository;
         private readonly IMapper _mapper;
         private readonly CorporateCustomerBusinessRules _businessRules;
 
-        public GetByIdCorporateCustomerQueryHandler(
+        public DeleteCorporateCustomerCommandHandler(
             ICorporateCustomerRepository corporateCustomerRepository,
             IMapper mapper,
             CorporateCustomerBusinessRules businessRules)
@@ -26,12 +26,15 @@ public class GetByIdCorporateCustomerQuery : IRequest<GetCorporateCustomerRespon
             _businessRules = businessRules;
         }
 
-        public async Task<GetCorporateCustomerResponse> Handle(GetByIdCorporateCustomerQuery request, CancellationToken cancellationToken)
+        public async Task<DeleteCorporateCustomerResponse> Handle(DeleteCorporateCustomerCommand request, CancellationToken cancellationToken)
         {
             await _businessRules.CustomerShouldExistWhenSelected(request.Id);
 
-            var corporateCustomer = await _corporateCustomerRepository.GetAsync(request.Id, cancellationToken);
-            return _mapper.Map<GetCorporateCustomerResponse>(corporateCustomer);
+            var customerToDelete = await _corporateCustomerRepository.GetAsync(request.Id, cancellationToken);
+            customerToDelete.IsActive = false;
+            await _corporateCustomerRepository.DeleteAsync(customerToDelete!, cancellationToken);
+
+            return new DeleteCorporateCustomerResponse { Id = request.Id };
         }
     }
 } 
