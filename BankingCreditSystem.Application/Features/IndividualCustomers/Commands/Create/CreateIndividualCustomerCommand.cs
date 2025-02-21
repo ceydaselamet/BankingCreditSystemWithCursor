@@ -1,3 +1,12 @@
+using AutoMapper;
+using BankingCreditSystem.Application.Features.IndividualCustomers.Rules;
+using BankingCreditSystem.Application.Features.IndividualCustomers.Dtos;
+using BankingCreditSystem.Application.Services.Repositories;
+using BankingCreditSystem.Domain.Entities;
+using MediatR;
+using BankingCreditSystem.Application.Features.IndividualCustomers.Dtos.Responses;
+using BankingCreditSystem.Application.Features.IndividualCustomers.Dtos.Requests;
+
 namespace BankingCreditSystem.Application.Features.IndividualCustomers.Commands.Create;
 
 public class CreateIndividualCustomerCommand : IRequest<CreateIndividualCustomerResponse>

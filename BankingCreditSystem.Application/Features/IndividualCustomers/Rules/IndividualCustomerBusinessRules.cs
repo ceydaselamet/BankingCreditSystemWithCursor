@@ -1,3 +1,7 @@
+using BankingCreditSystem.Application.Features.IndividualCustomers.Constants;
+using BankingCreditSystem.Application.Services.Repositories;
+using BankingCreditSystem.Core.CrossCuttingConcerns.Exceptions.Types;
+
 namespace BankingCreditSystem.Application.Features.IndividualCustomers.Rules;
 
 public class IndividualCustomerBusinessRules

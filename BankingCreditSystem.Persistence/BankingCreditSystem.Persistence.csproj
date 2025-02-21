@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BankingCreditSystem.Application\BankingCreditSystem.Application.csproj" />
+    <ProjectReference Include="..\BankingCreditSystem.Domain\BankingCreditSystem.Domain.csproj" />
     <ProjectReference Include="..\BankingCreditSystem.Core\BankingCreditSystem.Core.csproj" />
   </ItemGroup>
 

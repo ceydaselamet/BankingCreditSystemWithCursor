@@ -1,6 +1,6 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using BankingCreditSystem.Core.Entities;
+using BankingCreditSystem.Domain.Entities;
 
 namespace BankingCreditSystem.Persistence.Contexts;
 

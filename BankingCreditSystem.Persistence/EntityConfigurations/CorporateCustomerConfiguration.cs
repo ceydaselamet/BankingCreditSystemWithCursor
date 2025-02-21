@@ -1,3 +1,7 @@
+using BankingCreditSystem.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace BankingCreditSystem.Persistence.EntityConfigurations;
 
 public class CorporateCustomerConfiguration : IEntityTypeConfiguration<CorporateCustomer>

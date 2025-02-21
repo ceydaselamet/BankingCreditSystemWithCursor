@@ -1,3 +1,8 @@
+using AutoMapper;
+using BankingCreditSystem.Application.Features.IndividualCustomers.Dtos.Requests;
+using BankingCreditSystem.Application.Features.IndividualCustomers.Dtos.Responses;
+using BankingCreditSystem.Domain.Entities;
+
 namespace BankingCreditSystem.Application.Features.IndividualCustomers.Profiles;
 
 public class MappingProfiles : Profile

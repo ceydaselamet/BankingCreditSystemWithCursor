@@ -1,3 +1,10 @@
+using AutoMapper;
+using BankingCreditSystem.Application.Features.IndividualCustomers.Rules;
+using BankingCreditSystem.Application.Features.IndividualCustomers.Dtos.Responses;
+using BankingCreditSystem.Application.Services.Repositories;
+using BankingCreditSystem.Domain.Entities;
+using MediatR;
+
 namespace BankingCreditSystem.Application.Features.IndividualCustomers.Queries.GetById;
 
 public class GetByIdIndividualCustomerQuery : IRequest<GetIndividualCustomerResponse>
