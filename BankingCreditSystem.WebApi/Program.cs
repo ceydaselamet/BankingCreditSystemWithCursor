@@ -1,6 +1,12 @@
 using BankingCreditSystem.Application;
 using BankingCreditSystem.Core.CrossCuttingConcerns.Exceptions.Middlewares;
 using BankingCreditSystem.Persistence;
+using Microsoft.IdentityModel.Tokens;
+using BankingCreditSystem.Core.Security.JWT;
+using BankingCreditSystem.Core.Application.Pipelines.Authorization;
+using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using BankingCreditSystem.Core.Security.Encryption;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +24,25 @@ builder.Services.AddApplicationServices();
 
 // Add Persistence Services
 builder.Services.AddPersistenceServices(builder.Configuration);
+
+// Add JWT Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidIssuer = builder.Configuration["TokenOptions:Issuer"],
+            ValidAudience = builder.Configuration["TokenOptions:Audience"],
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(builder.Configuration["TokenOptions:SecurityKey"]!)
+        };
+    });
+
+// Add Authorization Pipeline
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
@@ -40,6 +65,7 @@ app.UseHttpsRedirection();
 
 app.UseMiddleware<ExceptionMiddleware>();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

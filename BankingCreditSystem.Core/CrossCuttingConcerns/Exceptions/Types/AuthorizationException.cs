@@ -1,4 +1,4 @@
-﻿using System;
+﻿namespace BankingCreditSystem.Core.CrossCuttingConcerns.Exceptions.Types;
 
 public class AuthorizationException : Exception
 {
