@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankingCreditSystem.Persistence.Migrations
 {
     [DbContext(typeof(BankingCreditSystemDbContext))]
-    [Migration("20250223114517_init")]
+    [Migration("20250223192434_init")]
     partial class init
     {
         /// <inheritdoc />
