@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankingCreditSystem.Persistence.Migrations
 {
     [DbContext(typeof(BankingCreditSystemDbContext))]
-    [Migration("20250222151320_AddCreditTypesAndApplication")]
-    partial class AddCreditTypesAndApplication
+    [Migration("20250223114517_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,97 @@ namespace BankingCreditSystem.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("BankingCreditSystem.Core.Security.Entities.OperationClaim", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OperationClaim");
+                });
+
+            modelBuilder.Entity("BankingCreditSystem.Core.Security.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+
+                    b.UseTptMappingStrategy();
+                });
+
+            modelBuilder.Entity("BankingCreditSystem.Core.Security.Entities.UserOperationClaim", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("OperationClaimId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OperationClaimId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserOperationClaim");
+                });
+
             modelBuilder.Entity("BankingCreditSystem.Domain.Entities.Customer", b =>
                 {
                     b.Property<Guid>("Id")
@@ -35,6 +126,9 @@ namespace BankingCreditSystem.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid>("ApplicationUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -61,6 +155,9 @@ namespace BankingCreditSystem.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId")
+                        .IsUnique();
 
                     b.ToTable("Customers", (string)null);
 
@@ -225,6 +322,23 @@ namespace BankingCreditSystem.Persistence.Migrations
                     b.ToTable("LoanDocuments", (string)null);
                 });
 
+            modelBuilder.Entity("BankingCreditSystem.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.HasBaseType("BankingCreditSystem.Core.Security.Entities.User");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.ToTable("ApplicationUsers", (string)null);
+                });
+
             modelBuilder.Entity("BankingCreditSystem.Domain.Entities.CorporateCustomer", b =>
                 {
                     b.HasBaseType("BankingCreditSystem.Domain.Entities.Customer");
@@ -302,6 +416,36 @@ namespace BankingCreditSystem.Persistence.Migrations
                     b.ToTable("IndividualCustomers", (string)null);
                 });
 
+            modelBuilder.Entity("BankingCreditSystem.Core.Security.Entities.UserOperationClaim", b =>
+                {
+                    b.HasOne("BankingCreditSystem.Core.Security.Entities.OperationClaim", "OperationClaim")
+                        .WithMany()
+                        .HasForeignKey("OperationClaimId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BankingCreditSystem.Core.Security.Entities.User", "User")
+                        .WithMany("UserOperationClaims")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OperationClaim");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BankingCreditSystem.Domain.Entities.Customer", b =>
+                {
+                    b.HasOne("BankingCreditSystem.Domain.Entities.ApplicationUser", "ApplicationUser")
+                        .WithOne("Customer")
+                        .HasForeignKey("BankingCreditSystem.Domain.Entities.Customer", "ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
             modelBuilder.Entity("BankingCreditSystem.Domain.Entities.LoanApplication", b =>
                 {
                     b.HasOne("BankingCreditSystem.Domain.Entities.Customer", "Customer")
@@ -342,6 +486,15 @@ namespace BankingCreditSystem.Persistence.Migrations
                     b.Navigation("LoanApplication");
                 });
 
+            modelBuilder.Entity("BankingCreditSystem.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.HasOne("BankingCreditSystem.Core.Security.Entities.User", null)
+                        .WithOne()
+                        .HasForeignKey("BankingCreditSystem.Domain.Entities.ApplicationUser", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BankingCreditSystem.Domain.Entities.CorporateCustomer", b =>
                 {
                     b.HasOne("BankingCreditSystem.Domain.Entities.Customer", null)
@@ -360,6 +513,11 @@ namespace BankingCreditSystem.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("BankingCreditSystem.Core.Security.Entities.User", b =>
+                {
+                    b.Navigation("UserOperationClaims");
+                });
+
             modelBuilder.Entity("BankingCreditSystem.Domain.Entities.LoanApplication", b =>
                 {
                     b.Navigation("Documents");
@@ -370,6 +528,11 @@ namespace BankingCreditSystem.Persistence.Migrations
                     b.Navigation("LoanApplications");
 
                     b.Navigation("SubLoanTypes");
+                });
+
+            modelBuilder.Entity("BankingCreditSystem.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("Customer");
                 });
 #pragma warning restore 612, 618
         }
