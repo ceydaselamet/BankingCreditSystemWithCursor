@@ -38,7 +38,7 @@ Proje aşağıdaki katmanlardan oluşmaktadır:
 ## Kurulum
 
 1. Projeyi clone'layın
-   git clone https://github.com/yourusername/BankingCreditSystem.git
+   git clone https://github.com/ceydaselaamet/BankingCreditSystem.git
    
 2. Veritabanını oluşturun
    cd BankingCreditSystem
